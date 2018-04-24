@@ -21,7 +21,7 @@ public class WelcomeController {
 
 	// inject via application.properties
 	@Value("${welcome.message:test}")
-	private String message = "Hello World";
+	private String message = "Hi";
 	
 	@RequestMapping("/")
 	public @ResponseBody void welcome(HttpServletRequest request, HttpServletResponse response) {
@@ -39,10 +39,11 @@ public class WelcomeController {
 	}
 
 	@RequestMapping("/auth")
-	public @ResponseBody void authorize(HttpServletRequest request, Map<String, Object> model) {
+	public String authorize(HttpServletRequest request, Map<String, Object> model) {
 		String authCode = request.getParameter("code");
 		System.out.println("Welcome controller -- Auth Code "+authCode);
 		BoxAPIConnection client = new BoxAPIConnection(CLIENT_ID, CLIENT_SECRET, authCode);
-		model.put("message123", this.message);
+		model.put("message", this.message);
+		return "welcome";
 	}
 }
